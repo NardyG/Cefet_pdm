@@ -1,66 +1,78 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import './resposta.dart';
 
-main(){
-  runApp(ComponenteInicial());
+main() {
+  runApp(aula());
 }
 
-class ComponenteInicial extends StatefulWidget{
+class aula extends StatefulWidget {
+  @override
+  State<aula> createState() => _aula();
+}
+
+class _aula extends State<aula> {
+  var contador = 0;
+
+  final perguntas = [
+    "Qual a cor favorita?",
+    "Comida favorita?",
+    "Animal que mais gosta?",
+    "O que faz nas horas vagas?"
+  ];
 
   @override
-
-  State<ComponenteInicial> createState() => _ComponenteInicialState();
-}
-
-class _ComponenteInicialState extends State<ComponenteInicial>{
-   var contador= 0;
-
-   final perguntas= [
-    "cor favo?",
-    "hob favo?",
-    "animal favo?",
-    "comida favo?"
-    ];
-   
-  void eventoBotao(){
-    setState((){
-      contador: contador++ ;
+  void clicou() {
+    setState(() {
+      contador = contador + 1;
     });
     print(contador);
-
   }
-Widget build(BuildContext context){
-  return MaterialApp(
-    home: Scaffold(
-      appBar: AppBar(
-        title: Text("Perguntas e respostas"),
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Perguntas"),
+        ),
+        body: Column(
+          children: [
+            Text(perguntas[contador]),
+            resposta(perguntas[contador]),
+            ElevatedButton(onPressed: clicou, child: Text("opçao1")),
+            ElevatedButton(onPressed: clicou, child: Text("opçao2")),
+            ElevatedButton(onPressed: clicou, child: Text("opçao3")),
+            ElevatedButton(onPressed: clicou, child: Text("opçao4")),
+            NovoBotao(
+              texto: "Novo Botão",
+              acao: () {
+                print("Clicou no Novo Botão!");
+              },
+            ),
+          ],
+        ),
       ),
-      body: Column(
-        children: [
-          Text(perguntas[contador]),
-          ElevatedButton(
-            onPressed: eventoBotao,
-           child: Text("Enviar")
-           ),
-           ElevatedButton(
-            onPressed: (){
-              print ("outra função");
-            },
-           child: Text("Cancelar")),
-            ElevatedButton(
-              onPressed: () => print ("função arrow"),
-           child: Text("Salvar")),
-           Column(
-            children: [
-              Text("Aprendendo"),
-              Text("Programação"),
-              Text("Flutter"),
-            ],
-           )
-        ],
-       )
-       
-    )
-  );
+    );
+  }
 }
+
+resposta(String pergunta) {
+}
+
+
+class NovoBotao extends StatelessWidget {
+  final String texto;
+  final VoidCallback acao;
+
+  const NovoBotao({Key? key, required this.texto, required this.acao})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: acao,
+      child: Text(texto),
+    );
+  }
 }
