@@ -1,78 +1,73 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import './questao.dart';
 import './resposta.dart';
 
 main() {
-  runApp(aula());
+  runApp(AulaComponentes());
 }
 
-class aula extends StatefulWidget {
+class AulaComponentes extends StatefulWidget{
   @override
-  State<aula> createState() => _aula();
+  State<AulaComponentes> createState() => _AulaComponentesState();
 }
 
-class _aula extends State<aula> {
-  var contador = 0;
+class _AulaComponentesState extends State<AulaComponentes> {
 
-  final perguntas = [
-    "Qual a cor favorita?",
-    "Comida favorita?",
-    "Animal que mais gosta?",
-    "O que faz nas horas vagas?"
+  var perguntaAtual = 0;
+  var cor = Colors.white;
+
+  //aqui é a aula de hoje trocar a lista de strings por uma lista de MAP
+
+  // final perguntas = [
+  //   "Qual a sua cor favorita?",
+  //   "Qual o seu animal favorito?",
+  // ];
+
+  final List<Map<String, Object>> perguntas = [
+    {
+      "texto" : "Qual a sua cor favorita?",
+      "respostas" : ["aMARELO","Preto", "Branco", "Azul", "Vermelho"]
+    },
+    {
+      "texto" : "Qual é seu animal favorito?",
+      "respostas" : ["Cachorro", "Gato", "Tartaruga", "Periquito"]
+    },
+    {
+      "texto" : "Qual sua linguagem favorita?",
+      "respostas" : ["Python", "Java", "JavaScript"]
+    },
+
   ];
-
-  @override
-  void clicou() {
+  
+  void acao(){
     setState(() {
-      contador = contador + 1;
+      perguntaAtual++;
     });
-    print(contador);
+    print(perguntaAtual);
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+
+    List<Widget> respostas = [];
+    //primeiro montar esse for
+    for (var resposta in perguntas[perguntaAtual].cast()["respostas"]) {
+      print(resposta);
+      respostas.add(
+          Resposta(resposta, acao)
+        );
+    }
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Perguntas"),
+          title: Questao(perguntas[perguntaAtual]["texto"].toString()),
         ),
         body: Column(
           children: [
-            Text(perguntas[contador]),
-            resposta(perguntas[contador]),
-            ElevatedButton(onPressed: clicou, child: Text("opçao1")),
-            ElevatedButton(onPressed: clicou, child: Text("opçao2")),
-            ElevatedButton(onPressed: clicou, child: Text("opçao3")),
-            ElevatedButton(onPressed: clicou, child: Text("opçao4")),
-            NovoBotao(
-              texto: "Novo Botão",
-              acao: () {
-                print("Clicou no Novo Botão!");
-              },
-            ),
+            ...respostas,
           ],
         ),
-      ),
-    );
-  }
-}
-
-resposta(String pergunta) {
-}
-
-
-class NovoBotao extends StatelessWidget {
-  final String texto;
-  final VoidCallback acao;
-
-  const NovoBotao({Key? key, required this.texto, required this.acao})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: acao,
-      child: Text(texto),
+      )
     );
   }
 }
