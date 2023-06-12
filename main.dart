@@ -40,6 +40,7 @@ class _AulaComponentesState extends State<AulaComponentes> {
 
   ];
   
+  
   void acao(){
     setState(() {
       perguntaAtual++;
