@@ -39,8 +39,12 @@ class _AulaComponentesState extends State<AulaComponentes> {
     },
 
   ];
+
+  bool get temPergunta{
+    return perguntaAtual < perguntas.length;
+  }
   
-  
+
   void acao(){
     setState(() {
       perguntaAtual++;
@@ -52,22 +56,25 @@ class _AulaComponentesState extends State<AulaComponentes> {
 
     List<Widget> respostas = [];
     //primeiro montar esse for
-    for (var resposta in perguntas[perguntaAtual].cast()["respostas"]) {
+    if(temPergunta){
+      for (var resposta in perguntas[perguntaAtual].cast()["respostas"]) {
       print(resposta);
       respostas.add(
           Resposta(resposta, acao)
         );
     }
+    }
+    
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Questao(perguntas[perguntaAtual]["texto"].toString()),
+          title: temPergunta ? Questao(perguntas[perguntaAtual]["texto"].toString()) : Questao("Terminou"),
         ),
-        body: Column(
+        body: temPergunta ? Column(
           children: [
             ...respostas,
           ],
-        ),
+        ) : Text("Resultado"),
       )
     );
   }
