@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './questionario.dart';
 import './resposta.dart';
 import './questao.dart';
+import './resultado.dart';
 
 void main() {
   runApp(AulaComponentes());
@@ -16,6 +17,7 @@ class AulaComponentes extends StatefulWidget {
 class _AulaComponentesState extends State<AulaComponentes> {
   var perguntaAtual = 0;
   var cor = Colors.white;
+  var respostasSelecionadas = <String>[]; // Lista de respostas selecionadas
 
   final List<Map<String, Object>> perguntas = [
     {
@@ -36,8 +38,9 @@ class _AulaComponentesState extends State<AulaComponentes> {
     return perguntaAtual < perguntas.length;
   }
 
-  void acao() {
+  void acao(String resposta) {
     setState(() {
+      respostasSelecionadas.add(resposta); // Adiciona a resposta selecionada à lista
       perguntaAtual++;
     });
     print(perguntaAtual);
@@ -53,11 +56,12 @@ class _AulaComponentesState extends State<AulaComponentes> {
         ),
         body: temPergunta
             ? Questionario(
-                perguntas: perguntas,
-                perguntaAtual: perguntaAtual,
-                onRespostaSelecionada: () => acao(),
-              )
-            : Text("Resultado"),
+              perguntas: perguntas,
+              perguntaAtual: perguntaAtual,
+              onRespostaSelecionada: (String resposta) => acao(resposta),
+      )
+    : Resultado(perguntas, respostasSelecionadas), // Passa perguntas e respostasSelecionadas como argumentos
+
       ),
     );
   }

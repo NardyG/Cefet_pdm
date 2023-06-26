@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-// //conteiner
-// child representa ao conteudo
-// padding é o espaçamento entre o conteudo e a borda
-// border é a borda
-// margem é a distancia entre um componente e outro
 
 class Questao extends StatelessWidget{
   final String texto;

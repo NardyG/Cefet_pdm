@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 
 
-class Resposta extends StatelessWidget{
+class Resposta extends StatelessWidget {
   final String texto;
-  final void Function() quandoSelecionar;
+  final void Function(String) onPressed;
 
-  Resposta(this.texto, this.quandoSelecionar);
+  Resposta(this.texto, this.onPressed);
 
-  Widget build(BuildContext context){
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(top: 10, bottom: 10),
-      child: 
-        ElevatedButton(
-            onPressed: quandoSelecionar, 
-            child: Text(this.texto)
-            ),
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => onPressed(texto),
+      child: Text(texto),
     );
   }
 }
+
   
